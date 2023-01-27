@@ -88,12 +88,12 @@ bool UGeneticCodingComponentP::CanReproduce(UGeneticCodingComponentP* otherGenes
 																			/* | */
 		arr[0].alliesOne = GenePool[j].IsDominateTraitOne;					/* | */        arr[1].alliesOne = GenePool[j].IsDominateTraitTwo;
 		arr[0].alliesTwo = otherGenes->GenePool[j].IsDominateTraitOne;		/* | */        arr[1].alliesTwo = otherGenes->GenePool[j].IsDominateTraitOne;
-		/* | */
+																			/* | */
 //_____________________________________________________________________________|___________________________________________________________________________________
 																			/* | */
 		arr[2].alliesOne = otherGenes->GenePool[j].IsDominateTraitTwo;		/* | */			arr[3].alliesOne = otherGenes->GenePool[j].IsDominateTraitTwo;
 		arr[2].alliesTwo = GenePool[j].IsDominateTraitOne;					/* | */			arr[3].alliesTwo = GenePool[j].IsDominateTraitTwo;
-		/* | */
+																			/* | */
 
 //Gets a random value between 0 and 3 to choose from the 4 spots in the cantainer
 		int RNG = FMath::RandRange(0, 3);
@@ -127,7 +127,7 @@ void UGeneticCodingComponentP::AddToManager()
 /// <summary>
 /// Once ready for recreate it'll spawn a new actor with a new genepool inherited 
 /// </summary>
-void UGeneticCodingComponentP::Recreate(FVector location, FRotator rotation)
+AActor* UGeneticCodingComponentP::Recreate(FVector location, FRotator rotation)
 {
 	//Lets user know they need to add a AGeneticCodingActor
 
@@ -141,55 +141,35 @@ void UGeneticCodingComponentP::Recreate(FVector location, FRotator rotation)
 	// Set the template property to the original actor
 	SpawnParams.Template = OriginalActor;
 
-	UGeneticCodingComponentP* TransferDNA;
-
 
 	// Get a reference to the current world
 	UWorld* World = GetWorld();
 	if (!World)
-		return;
+		return nullptr;
 
-	// Create a spawn transform using the location and rotation
-	FTransform SpawnTransform(rotation, location);
 	// Spawn the actor
-	AGeneticCodingActorP* MySpawnActor = World->SpawnActor<AGeneticCodingActorP>(OriginalActor->GetClass(), SpawnTransform, SpawnParams);
+	AActor* MySpawnActor = World->SpawnActor<AActor>(OriginalActor->GetClass(),location, rotation); //World->SpawnActor<AActor>(OriginalActor->GetClass(), SpawnTransform, SpawnParams);
 
-	if (UGeneticCodingComponentP* curremtGenes = MySpawnActor->FindComponentByClass<UGeneticCodingComponentP>())
-	{
-		if (curremtGenes->IsPendingKill())
-		{
-			MySpawnActor->RemoveOwnedComponent(curremtGenes);
-
-			// Create a new component and add it as a default subobject
-			TransferDNA = curremtGenes;
-			curremtGenes->DestroyComponent();
-
-			curremtGenes->RegisterComponent();
-		}
-	}
-
-	// Create a new component and add it as a default subobject
-	TransferDNA = NewObject<UGeneticCodingComponentP>(MySpawnActor, TEXT("GeneticCoding"));
-
-	if (_gameManager)
-		TransferDNA->_gameManager = _gameManager;
+	UGeneticCodingComponentP* curremtGenes = MySpawnActor->FindComponentByClass<UGeneticCodingComponentP>();
 
 
 	//Keeps track of the new generations parent
-	TransferDNA->_parent = GetOwner();
+	curremtGenes->_parent = GetOwner();
 	//Sets it's new gene pool
-	TransferDNA->GenePool = _offSpring->GenePool;
+	curremtGenes->GenePool = _offSpring->GenePool;
 
 	//Sets nre name to there geneticCode component
-	TransferDNA->Name = _offSpring->Name;
+	curremtGenes->Name = _offSpring->Name;
 
-	TransferDNA->IsReadyToRepoduce(false);
+	curremtGenes->IsReadyToRepoduce(false);
 
-	TransferDNA->RegisterComponent();
+	curremtGenes->RegisterComponent();
 
-	
 
-	MySpawnActor->AddInstanceComponent(TransferDNA);
+	if (_gameManager)
+		curremtGenes->_gameManager = _gameManager;
 
 	AddToManager();
+
+	return MySpawnActor;
 }

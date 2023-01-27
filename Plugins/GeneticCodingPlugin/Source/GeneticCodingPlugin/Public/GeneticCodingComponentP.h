@@ -58,7 +58,7 @@ public:
 	/// <summary>
 	/// Once ready for recreate it'll spawn a new actor with a new genepool inherited 
 	/// </summary>
-	void Recreate(FVector Location, FRotator Rotation);
+	AActor* Recreate(FVector Location, FRotator Rotation);
 
 	UFUNCTION(BlueprintCallable)
 	/// <summary>
