@@ -68,20 +68,38 @@ public:
 	void IsReadyToRepoduce(bool reproductionStat) { _readyToReproduce = reproductionStat; }
 
 public:
+	/// <summary>
+	/// Container for the traits of this actor
+	/// </summary>
 	UPROPERTY(EditAnywhere)
 	TArray<FGeneticCodingTraitInfoP> GenePool;
 
+	/// <summary>
+	/// The name of the offspring
+	/// </summary>
 	UPROPERTY(EditAnywhere)
 		FString Name;
+
+
+	AActor* Parent;
+
 private:
 	
-
+	/// <summary>
+	/// If ready to reproduce this will be sest to true other wise it'll stay false
+	/// </summary>
 	UPROPERTY(EditAnywhere)
 		bool _readyToReproduce = false;
 
+	/// <summary>
+	/// Able to sen the stats to Data Manager
+	/// </summary>
 	UPROPERTY(EditAnywhere)
 		class UGeneticCodingGameManagerP* _gameManager;
 
+
+	/// <summary>
+	/// Offsprings new set stats
+	/// </summary>
 	UGeneticCodingComponentP* _offSpring;
-	AActor* _parent;
 };

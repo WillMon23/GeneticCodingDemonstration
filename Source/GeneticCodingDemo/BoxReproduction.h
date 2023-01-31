@@ -22,4 +22,9 @@ private:
 	
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* m_meshComponent;
+
+	class UMaterialInterface* m_material;
+
+	class UMaterialInstanceDynamic* m_dynamicMaterial;
+	FColor fColor;
 };

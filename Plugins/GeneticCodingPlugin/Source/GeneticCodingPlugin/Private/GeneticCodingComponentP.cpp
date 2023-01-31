@@ -100,8 +100,14 @@ bool UGeneticCodingComponentP::CanReproduce(UGeneticCodingComponentP* otherGenes
 
 		winningAllies = arr[RNG];
 
+
+		//Defines the new offsprings trait and trait values  
+
 		_offSpring->GenePool[j].IsDominateTraitOne = winningAllies.alliesOne;
 		_offSpring->GenePool[j].IsDominateTraitTwo = winningAllies.alliesTwo;
+
+		_offSpring->GenePool[j].DominateTraitValue = (RNG > 1) ? otherGenes->GenePool[j].DominateTraitValue : GenePool[j].DominateTraitValue;
+		_offSpring->GenePool[j].ResessiveTraitValue = (RNG < 2) ? otherGenes->GenePool[j].ResessiveTraitValue : GenePool[j].ResessiveTraitValue;
 	}
 
 	_offSpring->Name = (Name + " , " + otherGenes->Name);
@@ -154,7 +160,7 @@ AActor* UGeneticCodingComponentP::Recreate(FVector location, FRotator rotation)
 
 
 	//Keeps track of the new generations parent
-	curremtGenes->_parent = GetOwner();
+	curremtGenes->Parent = GetOwner();
 	//Sets it's new gene pool
 	curremtGenes->GenePool = _offSpring->GenePool;
 
