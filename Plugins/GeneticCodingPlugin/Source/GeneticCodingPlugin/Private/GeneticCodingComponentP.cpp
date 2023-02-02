@@ -14,11 +14,24 @@ UGeneticCodingComponentP::UGeneticCodingComponentP()
 	// ...
 }
 
-
+/// <summary>
+/// Define you're acctors variables with GenePool[i].GetValue();
+/// Then make sure to call it during the BeginPlay call
+/// </summary>
 void UGeneticCodingComponentP::SetVariables()
 {
+	// ... Values to be set here
 }
 
+/// <summary>
+/// Add to the gene pool by makinga new Trait and adds it to the array 
+/// </summary>
+/// <param name="name">Sets a name to the trait</param>
+/// <param name="traitsDomOne">Is this trait have a dominate</param>
+/// <param name="traitsDomTwo">Is this trait have a dominate</param>
+/// <param name="domineteTrait">The output value for the Dominate Trait</param>
+/// <param name="resessiveTrait">The output value for the Dominate Trait</param>
+/// <returns></returns>
 float UGeneticCodingComponentP::AddToGenePool(FString name, bool traitsDomOne, bool traitsDomTwo, float domineteTrait, float resessiveTrait)
 {
 	FGeneticCodingTraitInfoP Trait = FGeneticCodingTraitInfoP();
@@ -31,16 +44,6 @@ float UGeneticCodingComponentP::AddToGenePool(FString name, bool traitsDomOne, b
 	Trait.ResessiveTraitValue = resessiveTrait;
 	GenePool.Add(Trait);
 	return Trait.GetValue();
-}
-
-/// <summary>
-/// Takes it's self recreates it with a new set of traits inherited by it's own traits 
-/// based on the trait info provided 
-/// </summary>
-/// <returns>returns true If the inheritance passed perfectly</returns>
-bool UGeneticCodingComponentP::CanReproduce()
-{
-	return  CanReproduce(this);
 }
 
 /// <summary>
@@ -110,6 +113,7 @@ bool UGeneticCodingComponentP::CanReproduce(UGeneticCodingComponentP* otherGenes
 		_offSpring->GenePool[j].ResessiveTraitValue = (RNG < 2) ? otherGenes->GenePool[j].ResessiveTraitValue : GenePool[j].ResessiveTraitValue;
 	}
 
+	//Applies the names assoicated with the parents 
 	_offSpring->Name = (Name + " , " + otherGenes->Name);
 	IsReadyToRepoduce(false);
 	return  true;
@@ -154,28 +158,26 @@ AActor* UGeneticCodingComponentP::Recreate(FVector location, FRotator rotation)
 		return nullptr;
 
 	// Spawn the actor
-	AActor* MySpawnActor = World->SpawnActor<AActor>(OriginalActor->GetClass(),location, rotation); //World->SpawnActor<AActor>(OriginalActor->GetClass(), SpawnTransform, SpawnParams);
+	AActor* NewOffSpring = World->SpawnActor<AActor>(OriginalActor->GetClass(),location, rotation); //World->SpawnActor<AActor>(OriginalActor->GetClass(), SpawnTransform, SpawnParams);
 
-	UGeneticCodingComponentP* curremtGenes = MySpawnActor->FindComponentByClass<UGeneticCodingComponentP>();
+	//Looks for the recreated actor GeneticCodingComponentP in order to change it's values
+	UGeneticCodingComponentP* curremtGenes = NewOffSpring->FindComponentByClass<UGeneticCodingComponentP>();
 
 
-	//Keeps track of the new generations parent
+	//Replaces that Gene Components values with the offsprinsa 
 	curremtGenes->Parent = GetOwner();
-	//Sets it's new gene pool
 	curremtGenes->GenePool = _offSpring->GenePool;
-
-	//Sets nre name to there geneticCode component
 	curremtGenes->Name = _offSpring->Name;
-
 	curremtGenes->IsReadyToRepoduce(false);
-
 	curremtGenes->RegisterComponent();
 
-
+	//If there is a Data Assest 
 	if (_gameManager)
+		//MAkes sures that the new Gene Compoent has the refrence to the Data Asset
 		curremtGenes->_gameManager = _gameManager;
 
 	AddToManager();
 
-	return MySpawnActor;
+	//returns a  refrence to the new offspring
+	return NewOffSpring;
 }

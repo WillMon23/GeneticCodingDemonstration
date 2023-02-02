@@ -16,21 +16,22 @@ class GENETICCODINGDEMO_API UBoxReproduction :public UGeneticCodingComponentP
 
 public:
 	UFUNCTION(BlueprintCallable)
+	/// <summary>
+	/// Handles initializing new values here
+	/// </summary>
 	void SetVariables() override;
 
 	UFUNCTION(BlueprintCallable)
-	void RefrenceValues();
+	/// <summary>
+	/// Gets the refrences to the 
+	/// </summary>
+	void RefrencedValues();
 
+	
 	void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private: 
-	
-
-	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* m_meshComponent;
 
-	class UMaterialInterface* m_material;
-
 	class UMaterialInstanceDynamic* m_dynamicMaterial;
-	FColor fColor;
 };

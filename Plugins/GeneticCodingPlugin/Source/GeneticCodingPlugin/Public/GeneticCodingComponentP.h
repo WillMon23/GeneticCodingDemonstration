@@ -25,18 +25,23 @@ public:
 	/// </summary>
 	UGeneticCodingComponentP();
 
-
+	/// <summary>
+	/// Define you're acctors variables with GenePool[i].GetValue();
+	/// Then make sure to call it during the BeginPlay call
+	/// </summary>
 	virtual void SetVariables();
 
 	UFUNCTION(BlueprintCallable)
-	float AddToGenePool(FString name, bool traitsDomOne, bool traitsDomTwo, float domineteTrait, float resessiveTrait);
-
 	/// <summary>
-	/// Takes it's self recreates it with a new set of traits inherited by it's own traits 
-	/// based on the trait info provided 
+	/// Add to the gene pool by makinga new Trait and adds it to the array 
 	/// </summary>
-	/// <returns>returns true If the inheritance passed perfectly</returns>
-	bool CanReproduce();
+	/// <param name="name">Sets a name to the trait</param>
+	/// <param name="traitsDomOne">Is this trait have a dominate</param>
+	/// <param name="traitsDomTwo">Is this trait have a dominate</param>
+	/// <param name="domineteTrait">The output value for the Dominate Trait</param>
+	/// <param name="resessiveTrait">The output value for the Dominate Trait</param>
+	/// <returns></returns>
+	float AddToGenePool(FString name, bool traitsDomOne, bool traitsDomTwo, float domineteTrait, float resessiveTrait);
 
 	UFUNCTION(BlueprintCallable)
 	/// <summary>
@@ -80,7 +85,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		FString Name;
 
-
+	//Refrence to the parent who created it.
 	AActor* Parent;
 
 private:
