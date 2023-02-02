@@ -85,23 +85,25 @@ public:
 	UPROPERTY(EditAnywhere)
 		FString Name;
 
-	//Refrence to the parent who created it.
+	/// <summary>
+	/// Refrence to the parent who created it
+	/// </summary>
 	AActor* Parent;
 
 private:
 	
+	
+	UPROPERTY(EditAnywhere)
 	/// <summary>
 	/// If ready to reproduce this will be sest to true other wise it'll stay false
 	/// </summary>
-	UPROPERTY(EditAnywhere)
 		bool _readyToReproduce = false;
-
+	
+	UPROPERTY(EditAnywhere)
 	/// <summary>
 	/// Able to sen the stats to Data Manager
 	/// </summary>
-	UPROPERTY(EditAnywhere)
 		class UGeneticCodingGameManagerP* _gameManager;
-
 
 	/// <summary>
 	/// Offsprings new set stats
