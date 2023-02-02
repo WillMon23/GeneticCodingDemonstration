@@ -18,8 +18,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetVariables() override;
 
+	UFUNCTION(BlueprintCallable)
+	void RefrenceValues();
+
+	void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
 private: 
 	
+
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* m_meshComponent;
 
