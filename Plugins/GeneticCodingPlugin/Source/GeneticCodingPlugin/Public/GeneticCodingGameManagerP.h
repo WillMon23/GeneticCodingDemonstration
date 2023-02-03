@@ -8,7 +8,7 @@
 #include "GeneticCodingGameManagerP.generated.h"
 
 /**
- * 
+ * Updates Data with every GeneticCodingComponent created
  */
 UCLASS()
 class GENETICCODINGPLUGIN_API UGeneticCodingGameManagerP : public UDataAsset
