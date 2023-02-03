@@ -40,3 +40,5 @@ Once chosen click the red button near the middles with any mouse click
 ## Know bugs
 
 Breaks if you try to make a child with the new born child
+
+Since the children are being deleted after each new born the refrence is lost and so it breaks
