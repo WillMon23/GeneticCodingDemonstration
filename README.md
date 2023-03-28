@@ -37,7 +37,7 @@ Once chosen click the red button near the middles with any mouse click
 - Note 2: The Box by the middle pedestal can't inherit any stats it's noly there eto demonstrate the ability to also use with Blueprints
 
 
-## Know bugs
+## Known bugs
 
 Breaks if you try to make a child with the new born child
 
